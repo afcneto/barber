@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken';
-
+import authConfig from '../../config/auth';
 import User from '../models/user';
 
 class SessionController {
   async store(req, res) {
     const {email, password} = req.body;
 
-      user = await User.findOne({ where: {emeil}});
+    const user = await User.findOne({ where: { email }});
 
     if (!user){
       return res.status(401).json({ error: 'Usuário não encontrado.'});
@@ -24,8 +24,8 @@ class SessionController {
         name,
         email,
       },
-      token: jwt.sign({ id }, 'ed216f26b9b66b9aaadbf798a26044df',{
-        expiresIn: '7d',
+      token: jwt.sign({ id }, authConfig.secret,{
+        expiresIn: authConfig.expiresIn,
       } ),
     })
   }
