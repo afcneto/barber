@@ -2,7 +2,7 @@ libs
 Nodemon:
 Sucrase:
 Docker:
-Sequelize:
+Sequelize: ORM
 ESLint:
 Prettier:
 EditorConfig:
