@@ -26,10 +26,12 @@ routes.get('/providers', ProviderController.index);
 
 routes.get('/agendamentos', AgendamentoController.index);
 routes.post('/agendamentos', AgendamentoController.store);
+routes.delete('/agendamentos/:id', AgendamentoController.delete);
 
 routes.get('/agenda', AgendaController.index);
 
 routes.get('/notificacoes', NotificacaoController.index);
+routes.put('/notificacoes/:id', NotificacaoController.update);
 
 routes.post('/files', upload.single('file'), FileController.store);
 

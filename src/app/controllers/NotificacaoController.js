@@ -16,9 +16,19 @@ class NotificacaoController {
 
         const notificacoes = await Notificacao.find({
             user: req.userId, /** usuário logado */
-        }).sort('createdAt');
+        }).sort({ createdAt: 'desc' }).limit(20);
 
         return res.json(notificacoes);
+    }
+
+    async update(req,res) {
+        const notificacao = await Notificacao.findByIdAndUpdate(
+            req.params.id,
+            { read: true },
+            { new: true },
+        );
+
+        return res.json(notificacao);
     }
 }
 

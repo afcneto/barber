@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { startOfHour, parseISO, isBefore, format } from 'date-fns';
+import { startOfHour, parseISO, isBefore, format, subHours } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import Agendamento from '../models/Agendamento';
 import File from '../models/File';
@@ -55,7 +55,12 @@ class AgendamentoController {
     });
 
     if (!isProvider) {
-        return res.status(401).json({ error: 'Voce só pode criar agendamentos com provedores.'})
+        return res.status(401).json({ error: 'Voce só pode criar agendamentos com provedores.'});
+    }
+
+    /** Verifica se o usuário está criando um agendamento para ele mesmo */
+    if (req.userId === provider_id) {
+        return res.status(401).json({ error: 'Não é possível criar um agendamento para você mesmo.' });
     }
 
     const hourStart = startOfHour(parseISO(date));
@@ -104,6 +109,26 @@ class AgendamentoController {
        user: provider_id, /** Usuário(prestador) que vai receber a notificação */
     });
 
+
+    return res.json(agendamento);
+  }
+
+  async delete(req,res) {
+    const agendamento = await Agendamento.findByPk(req.params.id);
+    
+    if (agendamento.user_id !== req.userId) {
+        return res.status(401).json({ error: 'Não tem permissões para cancelar esse agendamento.' });
+    }
+
+    const dataMinima = subHours(agendamento.date, 2);
+
+    if (isBefore(dataMinima, new Date())) {
+        return res.status(401).json({ error: 'Não pode cancelar o agendamento faltando menos de 2 horas.' });
+    }
+
+    agendamento.canceled_at = new Date();
+    
+    await agendamento.save();
 
     return res.json(agendamento);
   }
