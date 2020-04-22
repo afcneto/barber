@@ -6,6 +6,8 @@ import File from '../models/File';
 import User from '../models/user';
 import Notificacao from '../schemas/Notificacao';
 
+import Mail from '../../lib/mail';
+
 class AgendamentoController {
     async index(req,res) {
         const { page  = 1 } = req.query;
@@ -114,7 +116,15 @@ class AgendamentoController {
   }
 
   async delete(req,res) {
-    const agendamento = await Agendamento.findByPk(req.params.id);
+    const agendamento = await Agendamento.findByPk(req.params.id, {
+        include: [
+            {
+                model: User,
+                as: 'provider',
+                attributes: [ 'name', 'email' ],
+            } 
+        ]
+    });
     
     if (agendamento.user_id !== req.userId) {
         return res.status(401).json({ error: 'Não tem permissões para cancelar esse agendamento.' });
@@ -129,6 +139,12 @@ class AgendamentoController {
     agendamento.canceled_at = new Date();
     
     await agendamento.save();
+
+    await Mail.sendMail({
+        to: `${agendamento.provider.name} <${agendamento.provider.email}>`,
+        subject: 'Agendamento cancelado',
+        text: 'Você tem um novo cancelamento.',
+    });
 
     return res.json(agendamento);
   }

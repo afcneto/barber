@@ -13,3 +13,4 @@ YUP:
 MongoDB: Utilizado para as notificações
 MongoDB Compass: 
 mongoose: ORM para o MongoDB
+nodemailer: envio de e-mails
