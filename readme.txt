@@ -14,3 +14,6 @@ MongoDB: Utilizado para as notificações
 MongoDB Compass: 
 mongoose: ORM para o MongoDB
 nodemailer: envio de e-mails
+handlebars: templates de emails
+redis: banco não relacional bastante performático. armazena apenas chave-valor
+bee queue: ferramenta de fila, background extremamente performático
