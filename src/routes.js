@@ -11,6 +11,8 @@ import authMiddleware from './app/middlewares/auth';
 import AgendamentoController from './app/controllers/AgendamentoController';
 import AgendaController from './app/controllers/AgendaController';
 import NotificacaoController from './app/controllers/NotificacaoController';
+import DisponivelController from './app/controllers/DisponivelController';
+import HorariosController from './app/controllers/HorariosController';
 
 const routes = new Router();
 const upload = multer(multerconfig);
@@ -23,6 +25,7 @@ routes.use(authMiddleware);
 routes.put('/users', UserController.update);
 
 routes.get('/providers', ProviderController.index);
+routes.get('/providers/:providerId/disponivel', DisponivelController.index);
 
 routes.get('/agendamentos', AgendamentoController.index);
 routes.post('/agendamentos', AgendamentoController.store);
@@ -34,5 +37,8 @@ routes.get('/notificacoes', NotificacaoController.index);
 routes.put('/notificacoes/:id', NotificacaoController.update);
 
 routes.post('/files', upload.single('file'), FileController.store);
+
+routes.get('/horarios', HorariosController.index);
+
 
 export default routes;

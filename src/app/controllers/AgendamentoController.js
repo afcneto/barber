@@ -62,9 +62,9 @@ class AgendamentoController {
     }
 
     /** Verifica se o usuário está criando um agendamento para ele mesmo */
-    if (req.userId === provider_id) {
+    /**if (req.userId === provider_id) {
         return res.status(401).json({ error: 'Não é possível criar um agendamento para você mesmo.' });
-    }
+    }*/
 
     const hourStart = startOfHour(parseISO(date));
 
