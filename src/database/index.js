@@ -4,9 +4,10 @@ import mongoose from 'mongoose';
 import User from '../app/models/user';
 import File from '../app/models/File';
 import Agendamento from '../app/models/Agendamento';
+import Horario from '../app/models/Horario';
 import databaseConfig from '../config/database';
 
-const models = [User, File, Agendamento];
+const models = [User, File, Agendamento, Horario];
 
 class Database {
     constructor() {

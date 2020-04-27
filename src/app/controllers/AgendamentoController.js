@@ -82,7 +82,7 @@ class AgendamentoController {
         where: {
             provider_id,
             canceled_at: null,
-            date: hourStart,
+            date,
         },
     });
 
@@ -93,7 +93,7 @@ class AgendamentoController {
     const agendamento = await Agendamento.create({
         user_id: req.userId,
         provider_id,
-        date: hourStart,
+        date,
     });
 
     /**

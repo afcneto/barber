@@ -1,6 +1,7 @@
-import { startOfDay, endOfDay, setHours, setMinutes, setSeconds, format } from 'date-fns';
+import { startOfDay, endOfDay, setHours, setMinutes, setSeconds, format, isAfter } from 'date-fns';
 import { Op } from 'sequelize';
 import Agendamento from '../models/Agendamento';
+import Horario from '../models/Horario';
 
 class DisponivelController {
     async index(req, res){
@@ -12,7 +13,7 @@ class DisponivelController {
 
         const buscaData = Number(date);
 
-        /**const agendaDia = await Agendamento.findAll({
+        const agendamentos = await Agendamento.findAll({
             where: {
                 provider_id: req.params.providerId,
                 canceled_at: null,
@@ -20,22 +21,12 @@ class DisponivelController {
                     [Op.between]: [startOfDay(buscaData), endOfDay(buscaData)],
                 },
             },
-        });*/
+        });
 
-        const agendaDia = [
-            '08:00',
-            '09:00',
-            '10:00',
-            '11:00',
-            '12:00',
-            '13:00',
-            '14:00',
-            '15:00',
-            '16:00',
-            '17:00',
-            '18:00',
-        ];
-
+        const agendaDia = await Horario.findAll({ 
+            attributes: ['horario'] 
+        }).then(horarios => horarios.map(horario => horario.horario));
+                
         const disponivel = agendaDia.map(time => {
             const [hour, minute] = time.split(':');
             const value = setSeconds(
@@ -46,6 +37,10 @@ class DisponivelController {
             return {
                 time, 
                 value: format(value, "yyyy-MM-dd'T'HH:mm:ssxxx"),
+                disponivel: 
+                    isAfter(value, new Date()) &&
+                    !agendamentos.find(a => 
+                        format(a.date, 'HH:mm') === time)
             }
         });
 
