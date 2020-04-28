@@ -13,7 +13,7 @@ class DisponivelController {
 
         const buscaData = Number(date);
 
-        const agendamentos = await Agendamento.findAll({
+        const agendamentos = await Agendamento.finddAll({
             where: {
                 provider_id: req.params.providerId,
                 canceled_at: null,

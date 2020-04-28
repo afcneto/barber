@@ -15,7 +15,7 @@ class AgendamentoController {
 
         const agendamentos = await Agendamento.findAll({
             where: { user_id: req.userId, canceled_at: null },
-            attributes: ['id', 'date'],
+            attributes: ['id', 'date', 'passado', 'cancelavel'],
             limit: 20,
             offset: ( page - 1 ) * 20,
             order: ['date'],

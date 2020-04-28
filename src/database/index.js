@@ -25,7 +25,7 @@ class Database {
 
     mongo() {
         this.mongoConnrction = mongoose.connect (
-            'mongodb://localhost:27017/car_wash',
+            process.env.MONGO_URL,
             { useNewUrlParser: true, useFindAndModify: true },
         )
     }

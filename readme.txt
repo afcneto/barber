@@ -17,3 +17,5 @@ nodemailer: envio de e-mails
 handlebars: templates de emails
 redis: instalar. Banco não relacional bastante performático. armazena apenas chave-valor
 bee queue: ferramenta de fila, background extremamente performático
+sentry: monitoramento de erros
+youch: tratativa das mensagens de erro para dar uma melhor visualização
