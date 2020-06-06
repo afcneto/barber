@@ -26,11 +26,18 @@ class AgendaController {
                         endOfDay(parsedDate)
                     ]
                 },
+                include: [
+                    {
+                        model: User,
+                        as: 'user',
+                        attributes: ['name'],
+                    }
+                ]
             },
             order: ['date'],
         });
 
-        return res.json(agendamentos); 
+        return res.json(agendamentos);
     }
 }
 
