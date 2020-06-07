@@ -19,3 +19,4 @@ redis: instalar. Banco não relacional bastante performático. armazena apenas c
 bee queue: ferramenta de fila, background extremamente performático
 sentry: monitoramento de erros
 youch: tratativa das mensagens de erro para dar uma melhor visualização
+cors: permite que outras aplicações acessem nossa API

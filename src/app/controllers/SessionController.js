@@ -13,8 +13,8 @@ class SessionController {
         password: Yup.string().required(),
     });
 
-    if (!(await schema.isValid(req.body))){
-        return res.status(400).json({ error: 'Falha na validação.' });
+    if ((await schema.isValid(req.body))){
+        return res.status(400).json({ error: 'Falha na validação de sessão.' });
     }
 
     const {email, password} = req.body;

@@ -3,9 +3,9 @@ import path from 'path';
 import cors from 'cors';
 import  * as Sentry from '@sentry/node';
 import 'express-async-errors';
+import Youch from 'youch';
 import routes from './routes';
 import sentryConfig from './config/sentry';
-import Youch from 'youch';
 
 import './database';
 
